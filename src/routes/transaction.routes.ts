@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { transactions } from "../data/transactions";
 import { transferFunds } from "../services/ledger.service";
 
@@ -19,6 +19,18 @@ router.get("/", (req, res) => {
   }
 
   res.json(filtered);
+});
+
+router.get("/:id", async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  const transaction = transactions.find((txn) => txn.id === id);
+
+  if (!transaction) {
+    res.status(404).json({ message: "Transaction not found" });
+    return;
+  }
+
+  res.json(transaction);
 });
 
 router.post("/transfer", (req, res) => {
