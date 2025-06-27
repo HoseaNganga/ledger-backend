@@ -9,8 +9,8 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/accounts", accountRoutes);
-app.use("/transactions", transactionRoutes);
+app.use("/api/accounts", accountRoutes);
+app.use("/api/transactions", transactionRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
