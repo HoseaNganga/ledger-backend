@@ -1,3 +1,11 @@
-import { Transaction } from "../data/transactions";
-
-export const transactions: Transaction[] = [];
+export interface Transaction {
+  id: string;
+  from: string;
+  to: string;
+  amount: number;
+  currency: string;
+  note?: string;
+  timestamp: string;
+  fxRate?: number;
+  scheduledDate?: string;
+}

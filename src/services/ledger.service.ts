@@ -1,6 +1,6 @@
-import { accounts } from "../models/account.model";
-import { transactions } from "../models/transaction.model";
-import { Transaction } from "../data/transactions";
+import { accounts } from "../data/accounts";
+import { transactions } from "../data/transactions";
+import { Transaction } from "../models/transaction.model";
 import { v4 as uuidv4 } from "uuid";
 
 const FX_RATES: Record<string, number> = {
@@ -10,13 +10,20 @@ const FX_RATES: Record<string, number> = {
   NGN_USD: 1 / 770,
   KES_NGN: 770 / 140,
   NGN_KES: 140 / 770,
+  USD_ZAR: 18,
+  ZAR_USD: 1 / 18,
+  KES_ZAR: 18 / 140,
+  ZAR_KES: 140 / 18,
+  NGN_ZAR: 18 / 770,
+  ZAR_NGN: 770 / 18,
 };
 
 export function transferFunds(
   fromId: string,
   toId: string,
   amount: number,
-  note?: string
+  note?: string,
+  scheduledDate?: string
 ): { success: boolean; message: string } {
   const fromAccount = accounts.find((acc) => acc.id === fromId);
   const toAccount = accounts.find((acc) => acc.id === toId);
@@ -49,6 +56,7 @@ export function transferFunds(
     note,
     timestamp: new Date().toISOString(),
     fxRate: fxRate !== 1 ? fxRate : undefined,
+    scheduledDate: scheduledDate || undefined,
   };
 
   transactions.unshift(newTransaction);
