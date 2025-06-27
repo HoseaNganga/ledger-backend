@@ -20,13 +20,18 @@ router.get("/", (req, res) => {
 
   res.json(filtered);
 });
-
 router.get("/scheduled", (req, res) => {
-  const now = new Date();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-  const scheduled = transactions.filter(
-    (t) => t.scheduledDate && new Date(t.scheduledDate) > now
-  );
+  const scheduled = transactions.filter((t) => {
+    if (!t.scheduledDate) return false;
+
+    const scheduledDate = new Date(t.scheduledDate);
+    scheduledDate.setHours(0, 0, 0, 0);
+
+    return scheduledDate > today;
+  });
 
   res.json(scheduled);
 });
