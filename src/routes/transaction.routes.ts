@@ -21,6 +21,16 @@ router.get("/", (req, res) => {
   res.json(filtered);
 });
 
+router.get("/scheduled", (req, res) => {
+  const now = new Date();
+
+  const scheduled = transactions.filter(
+    (t) => t.scheduledDate && new Date(t.scheduledDate) > now
+  );
+
+  res.json(scheduled);
+});
+
 router.get("/:id", async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   const transaction = transactions.find((txn) => txn.id === id);
@@ -40,16 +50,6 @@ router.post("/transfer", (req, res) => {
 
   if (result.success) res.status(200).json(result);
   else res.status(400).json(result);
-});
-
-router.get("/scheduled", (req, res) => {
-  const now = new Date();
-
-  const scheduled = transactions.filter(
-    (t) => t.scheduledDate && new Date(t.scheduledDate) > now
-  );
-
-  res.json(scheduled);
 });
 
 export default router;
