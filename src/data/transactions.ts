@@ -1,10 +1,3 @@
-export interface Transaction {
-  id: string;
-  from: string;
-  to: string;
-  amount: number;
-  currency: string;
-  note?: string;
-  timestamp: string;
-  fxRate?: number;
-}
+import { Transaction } from "../models/transaction.model";
+
+export const transactions: Transaction[] = [];
